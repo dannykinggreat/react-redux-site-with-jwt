@@ -1,0 +1,9 @@
+{
+  //1 added @babel/preset-env to compile es6 to browser copatible file
+  //2 added @babel/preset-react to compile react js files
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": [
+    "react-hot-loader/babel",
+    "@babel/plugin-proposal-class-properties"
+  ]
+}
