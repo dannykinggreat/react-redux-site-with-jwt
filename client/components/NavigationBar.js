@@ -4,8 +4,8 @@ class NavigationBar extends Component {
   state = {};
   render() {
     return (
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <a className="navbar-brand" href="#">
           Navbar
         </a>
         <button
@@ -30,16 +30,6 @@ class NavigationBar extends Component {
               <Link to="/Signup" className="nav-link">
                 Sign Up
               </Link>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Pricing
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link disabled" href="#">
-                Disabled
-              </a>
             </li>
           </ul>
         </div>

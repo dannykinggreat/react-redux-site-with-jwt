@@ -3,7 +3,7 @@ import path from "path";
 
 export default {
   devtool: "inline-source-map",
-
+  mode: "development",
   entry: [
     //for hot realoading on changing react codeS
     "react-hot-loader/patch",
