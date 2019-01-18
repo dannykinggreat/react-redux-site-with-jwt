@@ -4,6 +4,8 @@ import webpack from "webpack";
 import webpackMiddleware from "webpack-dev-middleware";
 import webpackConf from "../webpack.config.js";
 import webpackHot from "webpack-hot-middleware";
+import users from "./routes/user";
+import bodyParser from "body-parser";
 
 //1 declare a const for express()
 const app = express();
@@ -18,6 +20,9 @@ app.use(
     publicPath: webpackConf.output.publicPath
   })
 );
+console.log("in server");
+app.use(bodyParser.json());
+app.use("/api/users", users);
 //for relaoding page on code changes
 app.use(webpackHot(config));
 
