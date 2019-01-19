@@ -3,15 +3,21 @@ import { Route } from "react-router-dom";
 import App from "./App";
 import Home from "./Home";
 import SignUp from "./SignUp";
+import { Router } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "../store";
+import { createBrowserHistory as createHistory } from "history";
 
 class Routes extends Component {
+  history = createHistory();
   state = {};
   render() {
     return (
       <Provider store={store}>
+        {/* Router is using custom createBrowserHistory */}
+        {/* <Router history={this.history}> */}
+        {/* BrowserRouter has alredy defined history in it */}
         <BrowserRouter>
           <div>
             <Route path="/" component={App} />
@@ -19,6 +25,7 @@ class Routes extends Component {
             <Route path="/signup" component={SignUp} />
           </div>
         </BrowserRouter>
+        {/* </Router> */}
       </Provider>
     );
   }

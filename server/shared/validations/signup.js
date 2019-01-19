@@ -25,10 +25,10 @@ const validateInput = data => {
   if (!validator.equals(data.password, data.passwordConfirmation)) {
     errors.passwordWarning = "Passwords do not match!!";
   }
-
+  console.log("fina errors", JSON.stringify(errors));
   return {
     errors,
-    isValid: errors == null
+    isValid: Object.keys(errors).length === 0 && errors.constructor === Object
   };
 };
 

@@ -25,6 +25,7 @@ class SignUpForm extends Component {
   //Used for client side validation. Validates each field in state object
   isValid = () => {
     const { errors, isValid } = validateInput(this.state);
+    console.log("vali?? ", isValid);
     if (!isValid) {
       this.setState({ errors });
     }
@@ -39,11 +40,12 @@ class SignUpForm extends Component {
       this.props
         .handleSubmit(this.state)
         .then(result => {
-          console.log("results", JSON.stringify(result));
+          //gets router object from context and pushes home path to history
+          this.context.router.history.push("/home");
+          console.log("result", result);
         })
         .catch(err => {
           this.setState({ errors: err.response.data, isLoading: false });
-          console.log("errorslol", JSON.stringify(err.response.data));
         });
     }
   };
@@ -64,6 +66,7 @@ class SignUpForm extends Component {
         <h1> We beg you to Sign Up!!!</h1>
 
         <TextFieldGroup
+          type="text"
           label="User Name"
           error={errors.username}
           name="username"
@@ -72,6 +75,7 @@ class SignUpForm extends Component {
           handleChange={this.handleChange}
         />
         <TextFieldGroup
+          type="password"
           label=" Password"
           error={errors.password}
           name="password"
@@ -80,14 +84,16 @@ class SignUpForm extends Component {
           handleChange={this.handleChange}
         />
         <TextFieldGroup
+          type="password"
           label="Confirm Password"
           error={errors.passwordConfirmation}
-          name="passwordConfimation"
-          id="passwordConfimation"
+          name="passwordConfirmation"
+          id="passwordConfirmation"
           placeholder="Confirm Password"
           handleChange={this.handleChange}
         />
         <TextFieldGroup
+          type="email"
           label="E-mail"
           error={errors.email}
           name="email"
@@ -123,7 +129,9 @@ class SignUpForm extends Component {
     );
   }
 }
-
+SignUpForm.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 SignUpForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 };

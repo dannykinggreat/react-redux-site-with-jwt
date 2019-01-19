@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { types } from "util";
 
 const TextFieldGroup = ({
   error,
+  type,
   name,
   handleChange,
   label,
@@ -15,7 +17,7 @@ const TextFieldGroup = ({
         {label}
       </label>
       <input
-        type="text"
+        type={type}
         className={`form-control ${error ? "is-invalid" : ""}`}
         name={name}
         id={id}
@@ -34,6 +36,7 @@ TextFieldGroup.propTypes = {
   handleChange: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   placeholder: PropTypes.string
 };
 export default TextFieldGroup;
