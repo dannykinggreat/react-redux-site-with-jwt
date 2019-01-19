@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import timezone from "../data/timezone";
 import PropTypes from "prop-types";
+import validateInput from "../../server/shared/validations/signup";
+import TextFieldGroup from "./common/TextFieldGroup";
 
 class SignUpForm extends Component {
   state = {
@@ -9,7 +11,9 @@ class SignUpForm extends Component {
     passwordConfirmation: "",
     email: "",
     timeZone: "",
-    errors: {}
+    errors: {},
+    isLoading: false,
+    isValid: true
   };
 
   handleChange = e => {
@@ -18,17 +22,30 @@ class SignUpForm extends Component {
     });
   };
 
+  //Used for client side validation. Validates each field in state object
+  isValid = () => {
+    const { errors, isValid } = validateInput(this.state);
+    if (!isValid) {
+      this.setState({ errors });
+    }
+    return isValid;
+  };
+
   handleSubmit = e => {
     e.preventDefault();
-    this.props
-      .handleSubmit(this.state)
-      .then(result => {
-        console.log("results", JSON.stringify(result));
-      })
-      .catch(err => {
-        this.setState({ errors: err.response.data });
-        console.log("errors", JSON.stringify(err.response.data));
-      });
+    if (this.isValid()) {
+      //If client side validation passes, then remove error object and set loading to true.
+      this.setState({ errors: {}, isLoading: true });
+      this.props
+        .handleSubmit(this.state)
+        .then(result => {
+          console.log("results", JSON.stringify(result));
+        })
+        .catch(err => {
+          this.setState({ errors: err.response.data, isLoading: false });
+          console.log("errorslol", JSON.stringify(err.response.data));
+        });
+    }
   };
 
   render() {
@@ -45,84 +62,39 @@ class SignUpForm extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <h1> We beg you to Sign Up!!!</h1>
-        <div className="form-group">
-          <label className="control-label" htmlFor="username">
-            User Name
-          </label>
-          <input
-            type="text"
-            className={`form-control ${errors.username ? "is-invalid" : ""}`}
-            name="username"
-            id="username"
-            aria-describedby="user name field"
-            placeholder="Enter User Name"
-            onChange={this.handleChange}
-          />
-          {errors.username && (
-            <small className="form-text text-muted">{errors.username}</small>
-          )}
-        </div>
-        <div className="form-group">
-          <label className="control-label" htmlFor="password">
-            Password
-          </label>
-          <input
-            type="password"
-            className={`form-control ${errors.password ? "is-invalid" : ""}`}
-            name="password"
-            id="password"
-            placeholder="Password"
-            onChange={this.handleChange}
-          />
-          {errors.password && (
-            <small className="form-text text-muted">{errors.password}</small>
-          )}
-        </div>
 
-        <div className="form-group">
-          <label className="control-label" htmlFor="passwordConfirmation">
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            className={`form-control ${
-              errors.passwordConfirmation || errors.passwordWarning
-                ? "is-invalid"
-                : ""
-            }`}
-            name="passwordConfirmation"
-            id="passwordConfirmation"
-            placeholder="Password"
-            onChange={this.handleChange}
-          />
-          {errors.passwordConfirmation && (
-            <small className="form-text text-muted">
-              {errors.passwordConfirmation}
-            </small>
-          )}
-          {errors.passwordWarning && (
-            <small className="form-text text-muted">
-              {errors.passwordWarning}
-            </small>
-          )}
-        </div>
-
-        <div className="form-group">
-          <label className="control-label" htmlFor="email">
-            E-mail
-          </label>
-          <input
-            type="email"
-            className={`form-control ${errors.email ? "is-invalid" : ""}`}
-            name="email"
-            id="email"
-            placeholder="Confirm Password"
-            onChange={this.handleChange}
-          />
-          {errors.email && (
-            <small className="form-text text-muted">{errors.email}</small>
-          )}
-        </div>
+        <TextFieldGroup
+          label="User Name"
+          error={errors.username}
+          name="username"
+          id="username"
+          placeholder="Enter User Name"
+          handleChange={this.handleChange}
+        />
+        <TextFieldGroup
+          label=" Password"
+          error={errors.password}
+          name="password"
+          id="password"
+          placeholder="Enter Password"
+          handleChange={this.handleChange}
+        />
+        <TextFieldGroup
+          label="Confirm Password"
+          error={errors.passwordConfirmation}
+          name="passwordConfimation"
+          id="passwordConfimation"
+          placeholder="Confirm Password"
+          handleChange={this.handleChange}
+        />
+        <TextFieldGroup
+          label="E-mail"
+          error={errors.email}
+          name="email"
+          id="email"
+          placeholder="Enter your  E-mail"
+          handleChange={this.handleChange}
+        />
 
         <div className="form-group">
           <label className="control-label" htmlFor="timeZone">
