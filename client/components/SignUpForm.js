@@ -3,6 +3,7 @@ import timezone from "../data/timezone";
 import PropTypes from "prop-types";
 import validateInput from "../../server/shared/validations/signup";
 import TextFieldGroup from "./common/TextFieldGroup";
+import shortid from "shortid";
 
 class SignUpForm extends Component {
   state = {
@@ -12,8 +13,7 @@ class SignUpForm extends Component {
     email: "",
     timeZone: "",
     errors: {},
-    isLoading: false,
-    isValid: true
+    isLoading: false
   };
 
   handleChange = e => {
@@ -27,7 +27,7 @@ class SignUpForm extends Component {
     const { errors, isValid } = validateInput(this.state);
     console.log("vali?? ", isValid);
     if (!isValid) {
-      this.setState({ errors });
+      this.setState({ errors, isValid });
     }
     return isValid;
   };
@@ -44,6 +44,13 @@ class SignUpForm extends Component {
           this.context.router.history.push("/home");
           console.log("result", result);
         })
+        .then(
+          this.props.addFlashMessage({
+            id: shortid.generate(),
+            type: "success",
+            text: "You have logged in!!"
+          })
+        )
         .catch(err => {
           this.setState({ errors: err.response.data, isLoading: false });
         });
@@ -133,6 +140,7 @@ SignUpForm.contextTypes = {
   router: PropTypes.object.isRequired
 };
 SignUpForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  addFlashMessage: PropTypes.func.isRequired
 };
 export default SignUpForm;
