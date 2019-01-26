@@ -37,23 +37,32 @@ class SignUpForm extends Component {
     if (this.isValid()) {
       //If client side validation passes, then remove error object and set loading to true.
       this.setState({ errors: {}, isLoading: true });
+      let header = {
+        wcid: "123-123-123-123"
+      };
       this.props
         .handleSubmit(this.state)
         .then(result => {
           //gets router object from context and pushes home path to history
           this.context.router.history.push("/home");
-          console.log("result", result);
+          console.log("result", result, header);
+          header = { ...header, Status: `${result.data.Status}` };
+          console.log("header", header);
         })
-        .then(
+        //.then takes upto two parameters.Both are functios(onFullFilled, onRejected(optional))
+        .then(() => {
+          console.log("inside flashaction");
           this.props.addFlashMessage({
             id: shortid.generate(),
             type: "success",
             text: "You have logged in!!"
-          })
-        )
+          });
+        })
         .catch(err => {
+          console.log("inside errors");
           this.setState({ errors: err.response.data, isLoading: false });
         });
+      console.log("final header", header);
     }
   };
 
@@ -93,7 +102,7 @@ class SignUpForm extends Component {
         <TextFieldGroup
           type="password"
           label="Confirm Password"
-          error={errors.passwordConfirmation}
+          error={errors.passwordWarning}
           name="passwordConfirmation"
           id="passwordConfirmation"
           placeholder="Confirm Password"

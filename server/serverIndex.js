@@ -6,6 +6,7 @@ import webpackConf from "../webpack.config.js";
 import webpackHot from "webpack-hot-middleware";
 import users from "./routes/user";
 import bodyParser from "body-parser";
+import mongoose from "mongoose";
 
 //1 declare a const for express()
 const app = express();
@@ -14,12 +15,23 @@ const app = express();
 //this should be placed before app.get function **important**
 const config = webpack(webpackConf);
 
+//Conect to mongoDB in local
+mongoose.connect("mongodb://localhost/users");
+//Connection instance
+var db = mongoose.connection;
+//Check if successfully connected
+db.on("error", console.error.bind(console, "Mongo Connection error"));
+db.once("open", () => {
+  console.log("Mongo connected");
+});
+
 app.use(
   webpackMiddleware(config, {
     noInfo: true,
     publicPath: webpackConf.output.publicPath
   })
 );
+
 console.log("in server");
 app.use(bodyParser.json());
 app.use("/api/users", users);
