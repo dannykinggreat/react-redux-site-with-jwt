@@ -9,7 +9,8 @@ const TextFieldGroup = ({
   handleChange,
   label,
   id,
-  placeholder
+  placeholder,
+  isUserExist
 }) => {
   return (
     <div className="form-group">
@@ -24,6 +25,7 @@ const TextFieldGroup = ({
         aria-describedby="user name field"
         placeholder={placeholder}
         onChange={handleChange}
+        onBlur={isUserExist}
       />
       {error && <small className="form-text text-muted">{error}</small>}
     </div>
@@ -37,6 +39,7 @@ TextFieldGroup.propTypes = {
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  isUserExist: PropTypes.func
 };
 export default TextFieldGroup;

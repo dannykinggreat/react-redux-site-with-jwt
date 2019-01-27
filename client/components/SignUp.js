@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SignUpForm from "./SignUpForm";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { updateSignUpRequest } from "./actions/signUpActions";
+import { updateSignUpRequest, checkUserExists } from "./actions/signUpActions";
 import { addFlashMessage } from "./actions/flashMessages";
 
 class SignUp extends Component {
@@ -25,10 +25,11 @@ class SignUp extends Component {
 
 SignUp.propTypes = {
   updateSignUpRequest: PropTypes.func.isRequired,
-  addFlashMessage: PropTypes.func.isRequired
+  addFlashMessage: PropTypes.func.isRequired,
+  checkUserExists: PropTypes.func.isRequired
 };
 
 export default connect(
   null,
-  { updateSignUpRequest, addFlashMessage }
+  { updateSignUpRequest, addFlashMessage, checkUserExists }
 )(SignUp);

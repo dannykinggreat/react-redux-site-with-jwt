@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import validateInput from "../../server/shared/validations/signup";
 import TextFieldGroup from "./common/TextFieldGroup";
 import shortid from "shortid";
+import { checkUserExists } from "./actions/signUpActions";
+import { connect } from "react-redux";
 
 class SignUpForm extends Component {
   state = {
@@ -13,7 +15,8 @@ class SignUpForm extends Component {
     email: "",
     timeZone: "",
     errors: {},
-    isLoading: false
+    isLoading: false,
+    inValid: false
   };
 
   handleChange = e => {
@@ -30,6 +33,28 @@ class SignUpForm extends Component {
       this.setState({ errors, isValid });
     }
     return isValid;
+  };
+
+  isUserExist = e => {
+    console.log("firing onblur validator", e.target.name);
+    let name = e.target.name;
+    let value = e.target.value;
+    e.preventDefault();
+    let { errors, inValid } = this.state;
+
+    if (value !== null) {
+      this.props.checkUserExists(value).then(user => {
+        if (user.data.length !== 0) {
+          console.log("firing onblur validator", user.data.length);
+          errors[name] = `This ${name} is already taken!!`;
+          inValid = true;
+        } else {
+          errors[name] = "";
+          inValid = false;
+        }
+        this.setState({ errors, inValid });
+      });
+    }
   };
 
   handleSubmit = e => {
@@ -49,7 +74,7 @@ class SignUpForm extends Component {
           header = { ...header, Status: `${result.data.Status}` };
           console.log("header", header);
         })
-        //.then takes upto two parameters.Both are functios(onFullFilled, onRejected(optional))
+        //.then takes upto two parameters.Both are functions(onFullFilled, onRejected(optional))
         .then(() => {
           console.log("inside flashaction");
           this.props.addFlashMessage({
@@ -89,6 +114,7 @@ class SignUpForm extends Component {
           id="username"
           placeholder="Enter User Name"
           handleChange={this.handleChange}
+          isUserExist={this.isUserExist}
         />
         <TextFieldGroup
           type="password"
@@ -116,6 +142,7 @@ class SignUpForm extends Component {
           id="email"
           placeholder="Enter your  E-mail"
           handleChange={this.handleChange}
+          isUserExist={this.isUserExist}
         />
 
         <div className="form-group">
@@ -138,7 +165,11 @@ class SignUpForm extends Component {
           )}
         </div>
 
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="submit"
+          disabled={this.state.inValid || this.state.isLoading}
+          className="btn btn-primary"
+        >
           Submit
         </button>
       </form>
@@ -150,6 +181,11 @@ SignUpForm.contextTypes = {
 };
 SignUpForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  addFlashMessage: PropTypes.func.isRequired
+  addFlashMessage: PropTypes.func.isRequired,
+  isUserExist: PropTypes.func
 };
-export default SignUpForm;
+
+export default connect(
+  null,
+  { checkUserExists }
+)(SignUpForm);

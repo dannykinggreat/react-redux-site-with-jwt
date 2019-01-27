@@ -4,3 +4,10 @@ export const updateSignUpRequest = userData => {
     return axios.post("/api/users/", userData);
   };
 };
+
+export const checkUserExists = identifier => {
+  return dispatch => {
+    console.log("inside checkuserExist");
+    return axios.get(`/api/users/${identifier}`);
+  };
+};
