@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import App from "./App";
 import Home from "./Home";
 import SignUp from "./SignUp";
+import Login from "./login";
 import { Router } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -23,6 +24,7 @@ class Routes extends Component {
             <Route path="/" component={App} />
             <Route exact path="/home" component={Home} />
             <Route path="/signup" component={SignUp} />
+            <Route path="/login" component={Login} />
           </div>
         </BrowserRouter>
         {/* </Router> */}

@@ -62,17 +62,13 @@ class SignUpForm extends Component {
     if (this.isValid()) {
       //If client side validation passes, then remove error object and set loading to true.
       this.setState({ errors: {}, isLoading: true });
-      let header = {
-        wcid: "123-123-123-123"
-      };
+
       this.props
         .handleSubmit(this.state)
         .then(result => {
           //gets router object from context and pushes home path to history
           this.context.router.history.push("/home");
-          console.log("result", result, header);
-          header = { ...header, Status: `${result.data.Status}` };
-          console.log("header", header);
+          console.log("result", result);
         })
         //.then takes upto two parameters.Both are functions(onFullFilled, onRejected(optional))
         .then(() => {

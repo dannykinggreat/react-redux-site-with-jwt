@@ -6,7 +6,7 @@ class NavigationBar extends Component {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#">
-          Navbar
+          Red Dice
         </a>
         <button
           className="navbar-toggler"
@@ -29,6 +29,11 @@ class NavigationBar extends Component {
             <li className="nav-item">
               <Link to="/Signup" className="nav-link">
                 Sign Up
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/Login" className="nav-link">
+                Log In
               </Link>
             </li>
           </ul>
