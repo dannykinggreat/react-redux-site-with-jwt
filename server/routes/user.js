@@ -4,6 +4,7 @@ import otherValidateInput from "../shared/validations/signup";
 import { User, addUser } from "../../models/user";
 import bcrypt from "bcrypt";
 import { promises } from "fs";
+
 // const app = express();
 // const user = app.route();
 let router = express.Router();
@@ -55,7 +56,7 @@ router.post("/", (req, res) => {
 });
 
 router.get("/:identifier", (req, res) => {
-  console.log("Uniquenes param", req.params.identifier);
+  console.log("Uniqueness param", req.params.identifier);
   User.find(
     {
       $or: [

@@ -7,6 +7,7 @@ import webpackHot from "webpack-hot-middleware";
 import users from "./routes/user";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import auth from "./routes/auth";
 
 //1 declare a const for express()
 const app = express();
@@ -34,6 +35,7 @@ app.use(
 
 console.log("in server");
 app.use(bodyParser.json());
+app.use("/api/auth", auth);
 app.use("/api/users", users);
 //for relaoding page on code changes
 app.use(webpackHot(config));

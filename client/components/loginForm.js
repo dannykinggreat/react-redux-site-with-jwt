@@ -17,7 +17,17 @@ class LoginForm extends Component {
     let { errors, isValid } = validateInput(this.state);
     if (isValid) {
       this.setState({ isLoading: true });
-      this.props.handleSubmit(this.state);
+      this.props.handleSubmit(this.state).then(
+        success => {
+          this.context.router.history.push("home");
+        },
+        error => {
+          console.log("inside error", error.response.data);
+          this.setState(error.response.data);
+          console.log("new state is", JSON.stringify(this.state));
+        }
+      );
+      this.setState({ isLoading: false });
     }
     this.setState({ errors, isValid });
   };
@@ -35,6 +45,7 @@ class LoginForm extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <h1> Member Log In</h1>
+        {errors.form && <div className="alert alert-danger">{errors.form}</div>}
         <TextFieldGroup
           label="User Name"
           name="username"
@@ -62,6 +73,10 @@ class LoginForm extends Component {
     );
   }
 }
+
+LoginForm.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 LoginForm.propTypes = {
   addFlashMessage: PropTypes.func,

@@ -172,9 +172,11 @@ class SignUpForm extends Component {
     );
   }
 }
+
 SignUpForm.contextTypes = {
   router: PropTypes.object.isRequired
 };
+
 SignUpForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   addFlashMessage: PropTypes.func.isRequired,
