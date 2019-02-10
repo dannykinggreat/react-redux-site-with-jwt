@@ -9,11 +9,21 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "../store";
 import { createBrowserHistory as createHistory } from "history";
+import { setCurrentUser } from "../components/actions/loginActions";
+import jwt from "jsonwebtoken";
 
 class Routes extends Component {
   history = createHistory();
   state = {};
   render() {
+    if (localStorage.getItem("jwtToken")) {
+      store.dispatch(
+        setCurrentUser(jwt.decode(localStorage.getItem("jwtToken")))
+      );
+
+      console.log("local storage is ", localStorage.getItem("jwtToken"));
+    }
+
     return (
       <Provider store={store}>
         {/* Router is using custom createBrowserHistory */}
