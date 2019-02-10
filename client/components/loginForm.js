@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TextFieldGroup from "./common/TextFieldGroup";
 import validateInput from "../../server/shared/validations/login";
 import PropTypes from "prop-types";
+import shortid from "shortid";
 
 class LoginForm extends Component {
   state = {
@@ -19,6 +20,11 @@ class LoginForm extends Component {
       this.setState({ isLoading: true });
       this.props.handleSubmit(this.state).then(
         success => {
+          this.props.addFlashMessage({
+            id: shortid.generate(),
+            type: "success",
+            text: "You have logged in!!"
+          });
           this.context.router.history.push("home");
         },
         error => {

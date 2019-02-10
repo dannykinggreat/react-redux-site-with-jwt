@@ -4,7 +4,7 @@ import App from "./App";
 import Home from "./Home";
 import SignUp from "./SignUp";
 import Login from "./login";
-import { Router } from "react-router-dom";
+//import { Router } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "../store";
