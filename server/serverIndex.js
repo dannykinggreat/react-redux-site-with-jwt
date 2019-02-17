@@ -8,6 +8,7 @@ import users from "./routes/user";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import auth from "./routes/auth";
+import event from "./routes/event";
 
 //1 declare a const for express()
 const app = express();
@@ -37,6 +38,7 @@ console.log("in server");
 app.use(bodyParser.json());
 app.use("/api/auth", auth);
 app.use("/api/users", users);
+app.use("/api/event", event);
 //for relaoding page on code changes
 app.use(webpackHot(config));
 

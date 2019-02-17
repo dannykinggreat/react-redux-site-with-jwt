@@ -25,6 +25,7 @@ export const login = data => {
       localStorage.setItem("jwtToken", token);
       setAuthorizationToken(token);
       console.log("Decoded token is ", jwt.decode(token));
+      console.log("axios headers ", axios.defaults);
       dispatch(setCurrentUser(jwt.decode(token)));
     });
   };
