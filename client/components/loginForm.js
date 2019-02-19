@@ -25,7 +25,7 @@ class LoginForm extends Component {
             type: "success",
             text: "You have logged in!!"
           });
-          this.context.router.history.push("home");
+          this.context.router.history.push("user");
         },
         error => {
           console.log("inside error", error.response.data);

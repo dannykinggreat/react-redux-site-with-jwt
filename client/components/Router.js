@@ -4,6 +4,7 @@ import App from "./App";
 import Home from "./Home";
 import SignUp from "./SignUp";
 import Login from "./login";
+import WelcomePage from "./welcomePage";
 import newEvent from "./newEvent";
 //import { Router } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
@@ -38,6 +39,7 @@ class Routes extends Component {
             <Route exact path="/home" component={Home} />
             <Route path="/signup" component={SignUp} />
             <Route path="/login" component={Login} />
+            <Route path="/user" component={WelcomePage} />
             <Route path="/new-event" component={newEvent} />
           </div>
         </BrowserRouter>

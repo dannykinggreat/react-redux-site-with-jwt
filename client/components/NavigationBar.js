@@ -11,14 +11,16 @@ class NavigationBar extends Component {
     console.log("this is", this);
     e.preventDefault();
     this.props.logout();
+    console.log("pushng history");
+    this.context.router.history.push("home");
   };
   render() {
     const { isAuthenticated } = this.props.auth;
 
     const userLinks = (
       <ul className="navbar-nav">
-        <li className="nav-item active">
-          <a href="#" onClick={this.logout}>
+        <li className="nav-item">
+          <a href="#" onClick={this.logout} className="nav-link">
             Logout <span className="sr-only">(current)</span>
           </a>
         </li>
@@ -26,8 +28,8 @@ class NavigationBar extends Component {
     );
 
     const guestLinks = (
-      <ul className="navbar-nav">
-        <li className="nav-item">
+      <ul className="navbar-nav ">
+        <li className="nav-item ">
           <Link to="/Signup" className="nav-link">
             Sign Up
           </Link>
@@ -42,10 +44,10 @@ class NavigationBar extends Component {
 
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" href="#">
+        <Link to="/home" className="navbar-brand mr-3">
           Red Dice
-        </a>
-        <button
+        </Link>
+        {/* <button
           className="navbar-toggler"
           type="button"
           data-toggle="collapse"
@@ -55,14 +57,18 @@ class NavigationBar extends Component {
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon" />
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
+        </button> */}
+        <div className="collapse navbar-collapse mr-sm-2" id="navbarNav">
           {isAuthenticated ? userLinks : guestLinks}
         </div>
       </nav>
     );
   }
 }
+
+NavigationBar.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 const mapStatToProps = state => {
   return {
