@@ -14,7 +14,7 @@
     "@babel/register": "^7.0.0",
     "bcrypt": "^3.0.3",
     "express": "^4.16.4",
-    "jsonwebtoken": "^8.4.0",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.4.6"
   },
   "devDependencies": {
